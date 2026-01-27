@@ -1,0 +1,7 @@
+[core]
+    remote = comment-classification-dataset
+['remote "comment-classification-dataset"']
+    url = s3://Comment-Classification-Dataset
+    endpointurl = https://s3.eu-central-003.backblazeb2.com
+    region = eu-central-003
+    use_ssl = true

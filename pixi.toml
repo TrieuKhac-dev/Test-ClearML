@@ -1,0 +1,21 @@
+[workspace]
+authors = ["TrieuKhac <caotrieu333@gmail.com>"]
+channels = ["conda-forge"]
+name = "test_workflows"
+platforms = ["win-64"]
+version = "0.1.0"
+
+
+[tasks]
+dvc-local-config = { description = "Auto set all DVC S3 config from .env (dùng REMOTE_NAME=<name>)", cmd = ["cmd.exe", "/C", "scripts\\dvc_config_auto.bat"] }
+
+aws-s3-ls = { description = "Liệt kê file S3 từ config.local", cmd = ["powershell", "-ExecutionPolicy", "Bypass", "-File", "scripts/aws_s3_ls_from_dvc.ps1"] }
+
+[dependencies]
+python = "3.11.*"
+dvc = ">=3.66.1,<4"
+dvc-s3 = ">=3.3.0,<4"
+
+[pypi-dependencies]
+clearml = { version = ">=2.1.2, <3", extras = ["s3"] }
+awscli = "*"
