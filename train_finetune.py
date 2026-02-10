@@ -1,9 +1,7 @@
 
 # -*- coding: utf-8 -*-
 # train_finetune.py - Fine-tune a pre-trained model, log metrics and upload weights to ClearML
-import time
 import os
-import numpy as np
 from clearml import Task
 from sklearn.datasets import load_digits
 from sklearn.model_selection import train_test_split

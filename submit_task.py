@@ -3,7 +3,6 @@ from clearml.task import Task as TaskType
 
 # This script is only used to submit and enqueue a task for the agent. It does NOT run training locally.
 
-import sys
 
 # script_name = "main.py"
 # if len(sys.argv) > 1:
