@@ -15,6 +15,9 @@ aws-s3-ls = { description = "Liệt kê file S3 từ config.local", cmd = ["powe
 python = "3.11.*"
 dvc = ">=3.66.1,<4"
 dvc-s3 = ">=3.3.0,<4"
+scikit-learn = ">=1.8.0,<2"
+numpy = ">=2.4.2,<3"
+joblib = ">=1.5.3,<2"
 
 [pypi-dependencies]
 clearml = { version = ">=2.1.2, <3", extras = ["s3"] }
