@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-# train_finetune.py - Fine-tune a pre-trained model, log metrics and upload weights to ClearML
-
+# train_finetune_clean.py - Fine-tune a pre-trained model, log metrics and upload weights to ClearML
 
 import os
 import random
@@ -14,7 +13,7 @@ import joblib
 
 # Redirect stdout/stderr to log file
 class Tee:
-    """Write simultaneously to a file and stdout"""
+    """Ghi đồng thời ra cả file và stdout"""
     def __init__(self, filename, mode="w"):
         self.file = open(filename, mode, encoding="utf-8")
         self.stdout = sys.stdout
@@ -32,6 +31,7 @@ sys.stdout = Tee(log_file)
 sys.stderr = sys.stdout
 
 # Get the current task if running via agent, otherwise create a new task
+# (comment tiếng Việt giữ nguyên)
 task: Task = Task.current_task() or Task.init(
     project_name="test_workflows",
     task_name="finetune sklearn logistic regression",
@@ -39,7 +39,6 @@ task: Task = Task.current_task() or Task.init(
 )
 
 task.connect({'model': 'LogisticRegression', 'dataset': 'digits'})
-
 
 # Load dataset
 X, y = load_digits(return_X_y=True)
@@ -73,7 +72,7 @@ with open("finetune_result.txt", "w", encoding="utf-8") as f:
     f.write(f"Test accuracy: {accuracy:.4f}\nLog loss: {logloss:.4f}\n")
 joblib.dump(model, "finetuned_model.joblib")
 
-# At the end of the script, upload the log file to ClearML if it exists
+# Cuối script, upload log file lên ClearML nếu tồn tại
 if os.path.exists("run_stdout.log"):
     task.upload_artifact("run_stdout", "run_stdout.log")
 
@@ -83,21 +82,3 @@ print("Metrics and model have been saved and uploaded to ClearML.")
 
 print("Current working directory:", os.getcwd())
 print("Files in cwd:", os.listdir())
-
-class Tee:
-    """Ghi đồng thời ra cả file và stdout"""
-    def __init__(self, filename, mode="w"):
-        self.file = open(filename, mode, encoding="utf-8")
-        self.stdout = sys.stdout
-    def write(self, data):
-        self.file.write(data)
-        self.stdout.write(data)
-    def flush(self):
-        self.file.flush()
-        self.stdout.flush()
-    def close(self):
-        self.file.close()
-
-log_file = "run_stdout.log"
-sys.stdout = Tee(log_file)
-sys.stderr = sys.stdout

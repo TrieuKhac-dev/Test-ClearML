@@ -42,7 +42,7 @@ if __name__ == "__main__":
     task = Task.create(
         project_name="test_workflows",
         task_name="train on colab agent: train_finetune.py",
-        script="train_finetune.py"
+        script="train_finetune_clean.py"
     )
     task.enqueue(task=task, queue_name="default")
     print("Task has been enqueued to the 'default' queue with script train_finetune.py. The Colab agent will pick it up and execute it.")
