@@ -12,7 +12,7 @@ import joblib
 
 # Redirect stdout/stderr to log file
 class Tee:
-    """Ghi đồng thời ra cả file và stdout"""
+    """Write simultaneously to both file and stdout"""
     def __init__(self, filename, mode="w"):
         self.file = open(filename, mode, encoding="utf-8")
         self.stdout = sys.stdout
@@ -29,8 +29,7 @@ log_file = "run_stdout.log"
 sys.stdout = Tee(log_file)
 sys.stderr = sys.stdout
 
-# Get the current task if running via agent, otherwise create a new task
-# (comment tiếng Việt giữ nguyên)
+    # Get the current task if running via agent, otherwise create a new task
 task: Task = Task.current_task() or Task.init(
     project_name="test_workflows",
     task_name="finetune sklearn logistic regression",
@@ -47,12 +46,12 @@ seed = random.randint(999999, 1000000)
 print(f"Random seed for split: {seed}")
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=seed)
 
-# Pre-trained model: fit on 50% of train, then fine-tune on the rest
+    # Pre-trained model: fit on 50% of train, then fine-tune on the rest
 X_pre, X_ft, y_pre, y_ft = train_test_split(X_train, y_train, test_size=0.5, random_state=seed)
 model = LogisticRegression(max_iter=1000, solver='lbfgs')
 model.fit(X_pre, y_pre)
 
-# Fine-tune
+    # Fine-tune on the remaining data
 model.fit(X_ft, y_ft)
 
 # Evaluate
@@ -61,17 +60,18 @@ y_prob = model.predict_proba(X_test)
 accuracy = accuracy_score(y_test, y_pred)
 logloss = log_loss(y_test, y_prob)
 
-# Log metrics
+    # Log metrics
 print(f"Test accuracy: {accuracy:.4f}, log loss: {logloss:.4f}")
 task.get_logger().report_scalar("accuracy", "test", value=accuracy, iteration=0)
 task.get_logger().report_scalar("log_loss", "test", value=logloss, iteration=0)
 
-# Save metrics and weights
+    # Save metrics and model weights
 with open("finetune_result.txt", "w", encoding="utf-8") as f:
     f.write(f"Test accuracy: {accuracy:.4f}\nLog loss: {logloss:.4f}\n")
 joblib.dump(model, "finetuned_model.joblib")
 
-# Cuối script, upload log file lên ClearML nếu tồn tại
+
+# At the end of the script, upload log file to ClearML if it exists
 if os.path.exists("run_stdout.log"):
     task.upload_artifact("run_stdout", "run_stdout.log")
 
