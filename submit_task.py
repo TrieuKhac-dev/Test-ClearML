@@ -38,7 +38,7 @@ def print_log_file(log_file):
     print("--- End of log ---\n")
 
 if __name__ == "__main__":
-    # Submit và enqueue task
+    # Submit and enqueue task
     task = Task.create(
         project_name="test_workflows",
         task_name="train on colab agent: train_finetune.py",
@@ -47,10 +47,10 @@ if __name__ == "__main__":
     task.enqueue(task=task, queue_name="default")
     print("Task has been enqueued to the 'default' queue with script train_finetune.py. The Colab agent will pick it up and execute it.")
 
-    # Đợi task hoàn thành
+    # Wait for task to complete
     wait_for_task(task)
 
-    # Tải và in log artifact
+    # Download and print log artifact
     log_file = "run_stdout.log"
     if download_artifact(task, "run_stdout", log_file):
         print_log_file(log_file)

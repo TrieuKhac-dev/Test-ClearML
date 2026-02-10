@@ -73,7 +73,7 @@ with open("finetune_result.txt", "w", encoding="utf-8") as f:
     f.write(f"Test accuracy: {accuracy:.4f}\nLog loss: {logloss:.4f}\n")
 joblib.dump(model, "finetuned_model.joblib")
 
-# Cuối script, upload log file lên ClearML nếu tồn tại
+# At the end of the script, upload the log file to ClearML if it exists
 if os.path.exists("run_stdout.log"):
     task.upload_artifact("run_stdout", "run_stdout.log")
 
