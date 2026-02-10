@@ -1,7 +1,9 @@
-
 # -*- coding: utf-8 -*-
 # train_finetune.py - Fine-tune a pre-trained model, log metrics and upload weights to ClearML
+
 import os
+import random
+import sys
 from clearml import Task
 from sklearn.datasets import load_digits
 from sklearn.model_selection import train_test_split
@@ -18,13 +20,18 @@ task: Task = Task.current_task() or Task.init(
 
 task.connect({'model': 'LogisticRegression', 'dataset': 'digits'})
 
+
 # Load dataset
 X, y = load_digits(return_X_y=True)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Sinh seed ngẫu nhiên mỗi lần chạy để chia dữ liệu khác nhau
+seed = random.randint(999999, 1000000)
+print(f"Random seed for split: {seed}")
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=seed)
 
 # "Pre-trained" model: fit on 50% of train, then fine-tune on the rest
-X_pre, X_ft, y_pre, y_ft = train_test_split(X_train, y_train, test_size=0.5, random_state=42)
-model = LogisticRegression(max_iter=1000, solver='lbfgs', multi_class='auto')
+X_pre, X_ft, y_pre, y_ft = train_test_split(X_train, y_train, test_size=0.5, random_state=seed)
+model = LogisticRegression(max_iter=1000, solver='lbfgs')
 model.fit(X_pre, y_pre)
 
 # Fine-tune
@@ -45,6 +52,10 @@ task.get_logger().report_scalar("log_loss", "test", value=loss, iteration=0)
 with open("finetune_result.txt", "w", encoding="utf-8") as f:
     f.write(f"Test accuracy: {acc:.4f}\nLog loss: {loss:.4f}\n")
 joblib.dump(model, "finetuned_model.joblib")
+
+# Cuối script, upload log file lên ClearML nếu tồn tại
+if os.path.exists("run_stdout.log"):
+    task.upload_artifact("run_stdout", "run_stdout.log")
 
 task.upload_artifact("finetune_metrics", "finetune_result.txt")
 task.upload_artifact("finetuned_model", "finetuned_model.joblib")
