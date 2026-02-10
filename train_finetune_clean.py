@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # train_finetune_clean.py - Fine-tune a pre-trained model, log metrics and upload weights to ClearML
 
 import os
