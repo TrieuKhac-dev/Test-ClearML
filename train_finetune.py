@@ -14,7 +14,7 @@ import joblib
 
 # Redirect stdout/stderr to log file
 class Tee:
-    """Ghi đồng thời ra cả file và stdout"""
+    """Write simultaneously to a file and stdout"""
     def __init__(self, filename, mode="w"):
         self.file = open(filename, mode, encoding="utf-8")
         self.stdout = sys.stdout
