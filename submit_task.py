@@ -2,6 +2,7 @@
 from clearml import Task
 import time
 import requests
+import shutil
 
 def wait_for_task(task):
     print(f"Waiting for task {task.id} to finish...")
@@ -20,16 +21,24 @@ def download_artifact(task, artifact_name, output_path):
     if not url:
         print(f"Artifact '{artifact_name}' has no URL!")
         return False
-    print(f"Downloading artifact '{artifact_name}' from {url}")
-    r = requests.get(url)
-    if r.status_code == 200:
-        with open(output_path, 'wb') as f:
-            f.write(r.content)
-        print(f"Downloaded to {output_path}")
-        return True
+    url_str = str(url)
+    if url_str.startswith("http://") or url_str.startswith("https://"):
+        print(f"Downloading artifact '{artifact_name}' from {url_str}")
+        r = requests.get(url_str)
+        if r.status_code == 200:
+            with open(output_path, 'wb') as f:
+                f.write(r.content)
+            print(f"Downloaded to {output_path}")
+            return True
+        else:
+            print(f"Failed to download artifact: HTTP {r.status_code}")
+            return False
     else:
-        print(f"Failed to download artifact: HTTP {r.status_code}")
-        return False
+        # Local file path
+        print(f"Copying local artifact '{artifact_name}' from {url_str}")
+        shutil.copy(url_str, output_path)
+        print(f"Copied to {output_path}")
+        return True
 
 def print_log_file(log_file):
     print("\n--- Log from run_stdout.log ---")
