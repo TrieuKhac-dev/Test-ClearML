@@ -8,9 +8,8 @@ Usage:
 import argparse
 from clearml import Dataset
 
-
-
-parser = argparse.ArgumentParser(description="Search for ClearML datasets by name and/or project, with optional exact match.")
+parser = argparse.ArgumentParser(description="Search for ClearML datasets by id, name and/or project, with optional exact match.")
+parser.add_argument('--id', help='Dataset id to search for')
 parser.add_argument('--name', help='Dataset name to search for')
 parser.add_argument('--project', help='Project name to search for')
 parser.add_argument('--exact', action='store_true', help='Match name/project exactly (default: substring match)')
@@ -20,8 +19,9 @@ args = parser.parse_args()
 if args.exact and not (args.name or args.project):
     parser.error('--exact requires --name and/or --project')
 
-
 def match(ds):
+    if args.id:
+        return ds.get('id') == args.id
     ds_name = ds.get('name','')
     ds_project = ds.get('project','')
     if args.name:
@@ -41,8 +41,9 @@ def match(ds):
     return True
 
 
+
 all_ds = Dataset.list_datasets() or []
-if not (args.name or args.project):
+if not (args.id or args.name or args.project):
     # Nếu không truyền tham số, in toàn bộ danh sách
     print(f"Found {len(all_ds)} dataset(s):")
     for ds in all_ds:
