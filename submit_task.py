@@ -57,7 +57,8 @@ if __name__ == "__main__":
     task = Task.create(
         project_name="test_workflows",
         task_name="train on agent: train_finetune_dataset_clearml.py",
-        script="train_finetune_dataset_clearml.py"
+        script="train_finetune_dataset_clearml.py",
+        requirements_file="clearml/requirements.txt"
     )
     task.enqueue(task=task, queue_name="default")
     print("Task has been enqueued to the 'default' queue with script train_finetune_dataset_clearml.py. The agent will pick it up and execute it.")

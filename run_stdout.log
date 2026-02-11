@@ -4,5 +4,5 @@ Loading data from: /root/.clearml/cache/storage_manager/datasets/ds_1c72a082cebf
 Random seed for split: 1000000
 Test accuracy: 0.9611, log loss: 0.1269
 Metrics and model have been saved and uploaded to ClearML.
-Current working directory: /root/.clearml/venvs-builds/3.12/task_repository/Test-ClearML.git
-Files in cwd: ['ML', 'main.py', '.gitattributes', 'data.dvc', 'pixi.toml', 'finetuned_model.joblib', '.git', 'colab_agent_setup_0.ipynb', 'clearml_delete_dataset.py', '.env', 'finetune_result.txt', 'PetShopWebsite.md', 'clearml_find_dataset.py', 'requirements.txt', '.gitignore', 'scripts', 'clearml_upload_dataset.py', '.editorconfig', 'train_finetune_dataset_clearml.py', 'submit_task.py', 'train_finetune_clean.py', 'run_stdout.log', 'DEVELOPMENT.md', '.dvc', '.dvcignore', 'pixi.lock', 'clearml_delete_tasks.py']
+Current working directory: /root/.clearml/venvs-builds.1/3.12/task_repository/Test-ClearML.git
+Files in cwd: ['ML', 'main.py', '.gitattributes', 'data.dvc', 'pixi.toml', 'finetuned_model.joblib', '.git', 'colab_agent_setup_0.ipynb', 'clearml_delete_dataset.py', '.env', 'finetune_result.txt', 'PetShopWebsite.md', 'clearml_find_dataset.py', '.gitignore', 'scripts', 'clearml_upload_dataset.py', '.editorconfig', 'train_finetune_dataset_clearml.py', 'submit_task.py', 'train_finetune_clean.py', 'run_stdout.log', 'DEVELOPMENT.md', '.dvc', '.dvcignore', 'pixi.lock', 'clearml', 'clearml_delete_tasks.py']
