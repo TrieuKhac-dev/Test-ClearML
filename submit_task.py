@@ -48,11 +48,17 @@ def print_log_file(log_file):
 
 if __name__ == "__main__":
     # Submit and enqueue task
+    # task = Task.create(
+    #     project_name="test_workflows",
+    #     task_name="train on colab agent: train_finetune.py",
+    #     script="train_finetune_clean.py"
+    # )
     task = Task.create(
-        project_name="test_workflows",
-        task_name="train on colab agent: train_finetune.py",
-        script="train_finetune_clean.py"
-    )
+    project_name="test_workflows",
+    task_name="train on agent: train_finetune_dataset_clearml.py",
+    script="train_finetune_dataset_clearml.py"
+)
+    task.set_base_arguments("--dataset_id 1c72a082cebf463f90a3c1ee2eb375d4 --csv_file digits_dataset.csv")
     task.enqueue(task=task, queue_name="default")
     print("Task has been enqueued to the 'default' queue with script train_finetune.py. The Colab agent will pick it up and execute it.")
 
